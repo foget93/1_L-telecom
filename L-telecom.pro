@@ -6,7 +6,13 @@ CONFIG -= app_bundle
 
 
 SOURCES += \
-        main.cpp
+        analyzer.cpp \
+        main.cpp \
+        textanalysis.cpp
 
 # Default rules for deployment.
+
+HEADERS += \
+    analyzer.h \
+    textanalysis.h
 
