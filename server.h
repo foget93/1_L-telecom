@@ -23,7 +23,7 @@ private:
     quint32 nextBlockSize;
 
 private:
-    void sendToClient(const QString& str); //передача данных клиенту
+    void sendToClient(const QString& str);
 };
 
 #endif // SERVER_H

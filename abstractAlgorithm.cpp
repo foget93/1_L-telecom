@@ -1,47 +1,58 @@
-#include "textanalysis.h"
+#include "abstractAlgorithm.h"
 #include <QMap>
 #include <QDebug>
 #include <QRegularExpression>
 #include <chrono>
 
-void algorithm_A::analysis(const QString &text)
+QString algorithm_A::analysis(const QString& text)
 {
+    QString result = "===new===\n";
     auto begin = std::chrono::steady_clock::now();
 
-    QMap<QChar, std::size_t> mapSymbols;
+    QMap<QChar, qsizetype> mapSymbols;
     for (qsizetype i {0}; i < text.length(); ++i)
         ++mapSymbols[text[i]];
 
     for (auto it = mapSymbols.constBegin(); it != mapSymbols.constEnd(); it++)
-        qDebug() << it.key() << "\t" << it.value();
-
+        result += it.key() + '\t' + QString::number(it.value()) + '\n';
+        //qDebug() << it.key() << "\t" << it.value();
+    result += "========================================================\n";
     auto end = std::chrono::steady_clock::now();
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+    //qDebug() << result;
+
     qDebug() << "The time: " << elapsed_ms.count() << " ms\n";
 
     qDebug() << text.length() <<"\n===================================================";
+    return result;
 }
 
 //======================================================================================
 
-void algorithm_B::analysis(const QString &text)
+QString algorithm_B::analysis(const QString& text)
 {
+    QString result;
     auto begin = std::chrono::steady_clock::now();
-
-    QStringList str = text.split(QRegularExpression("\\W"), Qt::SkipEmptyParts);
-    QMap<qsizetype, qsizetype> mapCountWords;
+    auto exp = QRegularExpression(QString("\\W"), QRegularExpression::UseUnicodePropertiesOption); //для винды, проверить убунту
+    QStringList str = text.split(exp, Qt::SkipEmptyParts);
+    QMap<size_t, size_t> mapCountWords;
     for (const auto& s : str)
     {
         ++mapCountWords[s.length()];
         //qDebug() << *it;
     }
     for (auto it = mapCountWords.constBegin(); it != mapCountWords.constEnd(); it++)
-        qDebug() << it.key() << "\t" << it.value();
-
+        result += QString::number(it.key()) + '\t' + QString::number(it.value()) + '\n';
+        //qDebug() << QString::number(it.key()) + " " + QString::number(it.value()) + ' ';
+    result += "========================================================";
     auto end = std::chrono::steady_clock::now();
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 
-    qDebug() << "The time: " << elapsed_ms.count() << " ms\n";
+    //qDebug() << result;
 
+
+    qDebug() << "The time: " << elapsed_ms.count() << " ms\n";
     qDebug() << text.length() <<"\n===================================================";
+
+    return result;
 }

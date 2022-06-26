@@ -2,9 +2,9 @@
 
 /*
  * private:
- *      textAnalysis* pAlgorithm;
+ *      abstractAlgorithm* pAlgorithm;
  */
-Analyzer::Analyzer(textAnalysis* algorithm)
+Analyzer::Analyzer(abstractAlgorithm* algorithm)
     : p_algorithm{algorithm}
 {
 
@@ -15,7 +15,9 @@ Analyzer::~Analyzer()
     delete p_algorithm;
 }
 
-void Analyzer::executeAlgorithm(const QString& text)
+QString Analyzer::executeAlgorithm(const QString& text)
 {
-    p_algorithm->analysis(text);
+    if (p_algorithm)
+        return p_algorithm->analysis(text);
+    else return text;
 }
