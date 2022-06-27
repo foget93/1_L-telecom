@@ -14,8 +14,9 @@ public:
     QTcpSocket* socket;
 
 public slots:
-    void incomingConnection(qintptr socketDescriptor) override;
     void slotReadyRead();
+protected slots:
+    void incomingConnection(qintptr socketDescriptor) override;
 
 private:
     QVector<QTcpSocket*> sockets;
@@ -24,6 +25,8 @@ private:
 
 private:
     void sendToClient(const QString& str);
+    QString useAlgorithms(const QString& str);
 };
 
 #endif // SERVER_H
+

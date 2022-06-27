@@ -4,7 +4,7 @@
 #include <QTextStream>
 
 
-#include "analyzer.h"
+#include "abstractAlgorithm.h"
 #include "server.h"
 
 int main(int argc, char *argv[])
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     QCoreApplication a(argc, argv);
     Server server;
-//    //QFile file ("/home/dmitrii/Downloads/test.txt");
+//    QFile file ("/home/dmitrii/Downloads/test.txt");
 //    QFile file ("C:\\Users\\Дмитрий\\Desktop\\Новый текстовый документ (2).txt");
 //    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 //        qDebug() << "File is not open!\n";

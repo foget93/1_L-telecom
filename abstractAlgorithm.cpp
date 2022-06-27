@@ -56,3 +56,24 @@ QString algorithm_B::analysis(const QString& text)
 
     return result;
 }
+
+//======================================================================================
+
+Analyzer::Analyzer(abstractAlgorithm* algorithm)
+    : p_algorithm{algorithm}
+{
+
+}
+
+Analyzer::~Analyzer()
+{
+    if (p_algorithm)
+        delete p_algorithm;
+}
+
+QString Analyzer::executeAlgorithm(const QString& text)
+{
+    if (p_algorithm)
+        return p_algorithm->analysis(text);
+    else return text;
+}

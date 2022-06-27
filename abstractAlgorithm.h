@@ -22,4 +22,17 @@ class algorithm_B : public abstractAlgorithm
     QString analysis(const QString& text) override final;
 }; //распределение слов по их длинам (кол-во слов длинной 1 символ, 2 символа и тд ).
 
+//=======================================================================================
+
+class Analyzer
+{
+public:
+    Analyzer(abstractAlgorithm* algorithm = nullptr); //изменить nullptr или проверять
+    ~Analyzer();
+    QString executeAlgorithm(const QString& text);
+
+private:
+    abstractAlgorithm* p_algorithm;
+};
+
 #endif // ABSTRACTALGORITHM_H

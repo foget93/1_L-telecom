@@ -1,6 +1,6 @@
 #include "server.h"
 #include <QTime>
-#include "analyzer.h"
+#include "abstractAlgorithm.h"
 
 Server::Server()
     : nextBlockSize{0}
@@ -25,7 +25,7 @@ void Server::incomingConnection(qintptr socketDescriptor)
     connect(socket, &QTcpSocket::disconnected,
             socket, &QTcpSocket::deleteLater);  //при откл клиента приложение удалит сокет
 
-    sockets.push_back(socket);
+    //sockets.push_back(socket);
     qDebug() << "client connected:" << socketDescriptor;
 }
 
@@ -33,7 +33,7 @@ void Server::incomingConnection(qintptr socketDescriptor)
 
 void Server::slotReadyRead()
 {
-    socket = dynamic_cast<QTcpSocket*>(sender());
+    socket = static_cast<QTcpSocket*>(sender());
     QDataStream in(socket);
     in.setVersion(QDataStream::Qt_6_2);
 
@@ -56,18 +56,9 @@ void Server::slotReadyRead()
 
             qDebug() << str;
             /*обработать*/
-            QString bufStr;
-
-            Analyzer testAlg1 (new algorithm_A);
-            bufStr += testAlg1.executeAlgorithm(str);
-
-            Analyzer testAlg2 (new algorithm_B);
-            bufStr += testAlg2.executeAlgorithm(str);
-
-            sendToClient(bufStr);
+            sendToClient(useAlgorithms(str));
             break;
         }
-
 }
 
 //=================================================================
@@ -83,9 +74,20 @@ void Server::sendToClient(const QString& str)
     out.device()->seek(0);
     out << quint32(data.size() - sizeof(quint32));
 
-    //this->socket->write(data);
-        for (int i {0}; i < sockets.size(); ++i)
-              sockets[i]->write(data);
+    if(socket)
+        this->socket->write(data);
+//        for (int i {0}; i < sockets.size(); ++i)
+//            sockets[i]->write(data);
+}
+
+//=================================================================
+
+QString Server::useAlgorithms(const QString &str)
+{
+    Analyzer analyzerA (new algorithm_A);
+    Analyzer analyzerB (new algorithm_B);
+
+    return (analyzerA.executeAlgorithm(str) + analyzerB.executeAlgorithm(str));
 }
 
 //=================================================================

@@ -8,7 +8,6 @@ CONFIG -= app_bundle
 
 SOURCES += \
         abstractAlgorithm.cpp \
-        analyzer.cpp \
         main.cpp \
         server.cpp
 
@@ -16,6 +15,5 @@ SOURCES += \
 
 HEADERS += \
     abstractAlgorithm.h \
-    analyzer.h \
     server.h
 
